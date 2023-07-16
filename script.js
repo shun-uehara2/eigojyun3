@@ -50,13 +50,13 @@ function checkAnswer() {
     document.getElementById('feedback').textContent = '正解！';
     document.getElementById('feedback').classList = 'text-green-500';
     document.getElementById('result').textContent = '〇';
-    document.getElementById('result').classList = 'text-green-500';
+    document.getElementById('result').classList = 'text-green-500 text-9xl';
     correctCount++;
   } else {
     document.getElementById('feedback').textContent = '不正解...';
     document.getElementById('feedback').classList = 'text-red-500';
     document.getElementById('result').textContent = '×';
-    document.getElementById('result').classList = 'text-red-500';
+    document.getElementById('result').classList = 'text-red-500 text-9xl';
   }
   document.getElementById('correct').textContent = `正答数: ${correctCount}`;
   document.getElementById('incorrect').textContent = `誤答数: ${totalCount - correctCount}`;
