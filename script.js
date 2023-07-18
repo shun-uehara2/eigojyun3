@@ -11,7 +11,7 @@ var sentences = [
   ["友達は", "パーティーに", "参加する。"],
   ["彼は", "映画を", "見る。"],
   ["私は", "ケーキを", "焼く。"],
-  ["彼女は", "花を ", "植える。"],
+  ["彼女は", "花を", "植える。"],
   ["彼は", "歌を", "歌う。"],
   ["私は", "散歩する。"]
 ];
@@ -19,6 +19,10 @@ var currentSentence = [];
 var currentAnswer = [];
 var correctCount = 0;
 var totalCount = 0;
+
+// Timer related variables
+var timer;
+var timeRemaining = 5 * 60;
 
 function newSentence() {
   var sentence = sentences[Math.floor(Math.random() * sentences.length)];
@@ -50,13 +54,13 @@ function checkAnswer() {
     document.getElementById('feedback').textContent = '正解！';
     document.getElementById('feedback').classList = 'text-green-500';
     document.getElementById('result').textContent = '〇';
-    document.getElementById('result').classList = 'text-green-500 text-9xl';
+    document.getElementById('result').classList = 'text-green-500';
     correctCount++;
   } else {
     document.getElementById('feedback').textContent = '不正解...';
     document.getElementById('feedback').classList = 'text-red-500';
     document.getElementById('result').textContent = '×';
-    document.getElementById('result').classList = 'text-red-500 text-9xl';
+    document.getElementById('result').classList = 'text-red-500';
   }
   document.getElementById('correct').textContent = `正答数: ${correctCount}`;
   document.getElementById('incorrect').textContent = `誤答数: ${totalCount - correctCount}`;
@@ -65,8 +69,33 @@ function checkAnswer() {
     document.getElementById('feedback').textContent = '';
     document.getElementById('result').textContent = '';
     currentAnswer = [];
-    newSentence();
+    if (timeRemaining > 0) {
+      newSentence();
+    } else {
+      endGame();
+    }
   }, 2000);
 }
 
+function endGame() {
+  document.getElementById('options').innerHTML = '';
+  document.getElementById('feedback').textContent = '時間切れ！';
+  document.getElementById('feedback').classList = 'text-red-500';
+  document.getElementById('answer').textContent = '';
+  clearInterval(timer);
+}
+
+function startTimer() {
+  timer = setInterval(function() {
+    timeRemaining--;
+    var minutes = Math.floor(timeRemaining / 60);
+    var seconds = timeRemaining % 60;
+    document.getElementById('timer').textContent = minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+    if (timeRemaining <= 0) {
+      endGame();
+    }
+  }, 1000);
+}
+
 newSentence();
+startTimer();
